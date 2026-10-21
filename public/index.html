@@ -1,0 +1,1151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AuraWings — Premium Flight Ticket Booking & Live Concierge</title>
+  <meta name="description" content="Experience ultra-luxury flight booking with AuraWings. Instant search, interactive cabin seat selection, dynamic pricing, and instant boarding pass generation.">
+  
+  <!-- Google Fonts: Outfit & Plus Jakarta Sans -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  
+  <!-- Font Awesome Icons for high quality visuals -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  
+  <!-- Main Stylesheet -->
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+  <!-- Ambient background glow elements -->
+  <div class="ambient-glow glow-1"></div>
+  <div class="ambient-glow glow-2"></div>
+
+  <!-- Header / Navigation Bar -->
+  <header class="navbar">
+    <div class="nav-container">
+      <a href="#" class="brand-logo" id="brandLogo">
+        <div class="logo-icon">
+          <i class="fa-solid fa-plane-up"></i>
+        </div>
+        <div class="logo-text">
+          <span class="logo-main">AURA<span class="logo-highlight">WINGS</span></span>
+          <span class="logo-sub">GLOBAL ELITE AVIATION</span>
+        </div>
+      </a>
+
+      <nav class="nav-links">
+        <a href="#searchSection" class="nav-link active"><i class="fa-solid fa-magnifying-glass"></i> Book Flights</a>
+        <a href="#destinationsSection" class="nav-link"><i class="fa-solid fa-earth-americas"></i> Destinations</a>
+        <a href="#flightStatusSection" class="nav-link"><i class="fa-solid fa-clock"></i> Flight Status</a>
+        <a href="#featuresSection" class="nav-link"><i class="fa-solid fa-award"></i> The Aura Experience</a>
+      </nav>
+
+      <div class="nav-actions">
+        <!-- Currency Selector -->
+        <div class="currency-picker" id="currencyPicker">
+          <i class="fa-solid fa-globe"></i>
+          <select id="currencySelect" aria-label="Select Currency">
+            <option value="USD">USD ($)</option>
+            <option value="EUR">EUR (€)</option>
+            <option value="GBP">GBP (£)</option>
+            <option value="INR" selected>INR (₹)</option>
+            <option value="AED">AED (د.إ)</option>
+            <option value="JPY">JPY (¥)</option>
+          </select>
+        </div>
+
+        <!-- My Bookings Button -->
+        <button class="btn btn-outline" id="myBookingsBtn">
+          <i class="fa-solid fa-ticket"></i>
+          <span>My Trips</span>
+          <span class="badge" id="bookingsCountBadge">0</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="hero-section" id="heroSection">
+    <div class="hero-bg-wrapper">
+      <img src="assets/hero_airplane.jpg" alt="AuraWings luxury jet airliner flying above sunrise clouds" class="hero-bg-img" id="heroBgImg">
+      <div class="hero-overlay"></div>
+    </div>
+
+    <div class="hero-content">
+      <div class="hero-badge">
+        <i class="fa-solid fa-star"></i> Rated World's #1 Luxury Aviation Experience
+      </div>
+      <h1 class="hero-title">Elevate Your Journey <br><span class="gradient-text">Above The Clouds</span></h1>
+      <p class="hero-subtitle">Discover non-stop world routes, handcrafted cabin comfort, and instant smart booking with zero hidden charges.</p>
+      
+      <!-- Flight Search Widget Box -->
+      <div class="search-widget-card" id="searchSection">
+        <!-- Trip Type Selector -->
+        <div class="trip-type-tabs">
+          <button class="trip-tab active" data-type="roundtrip"><i class="fa-solid fa-arrows-rotate"></i> Round Trip</button>
+          <button class="trip-tab" data-type="oneway"><i class="fa-solid fa-arrow-right"></i> One Way</button>
+          <button class="trip-tab" data-type="multicity"><i class="fa-solid fa-route"></i> Multi-City</button>
+        </div>
+
+        <form id="flightSearchForm" class="search-form">
+          <div class="form-grid">
+            <!-- Origin Input -->
+            <div class="input-group origin-group">
+              <label for="originInput"><i class="fa-solid fa-plane-departure"></i> Origin</label>
+              <div class="custom-select-wrapper">
+                <select id="originInput" required>
+                  <option value="DEL" data-city="New Delhi" data-country="India" selected>New Delhi (DEL) - Indira Gandhi Int'l</option>
+                  <option value="BOM" data-city="Mumbai" data-country="India">Mumbai (BOM) - Chhatrapati Shivaji</option>
+                  <option value="BLR" data-city="Bengaluru" data-country="India">Bengaluru (BLR) - Kempegowda Int'l</option>
+                  <option value="DXB" data-city="Dubai" data-country="UAE">Dubai (DXB) - Dubai Int'l</option>
+                  <option value="LHR" data-city="London" data-country="United Kingdom">London (LHR) - Heathrow Airport</option>
+                  <option value="JFK" data-city="New York" data-country="United States">New York (JFK) - John F. Kennedy</option>
+                  <option value="SIN" data-city="Singapore" data-country="Singapore">Singapore (SIN) - Changi Airport</option>
+                  <option value="HND" data-city="Tokyo" data-country="Japan">Tokyo (HND) - Haneda Airport</option>
+                  <option value="CDG" data-city="Paris" data-country="France">Paris (CDG) - Charles de Gaulle</option>
+                  <option value="SYD" data-city="Sydney" data-country="Australia">Sydney (SYD) - Kingsford Smith</option>
+                </select>
+              </div>
+            </div>
+
+            <!-- Swap Locations Button -->
+            <button type="button" class="btn-swap" id="swapLocationsBtn" title="Swap Origin and Destination" aria-label="Swap Locations">
+              <i class="fa-solid fa-right-left"></i>
+            </button>
+
+            <!-- Destination Input -->
+            <div class="input-group dest-group">
+              <label for="destInput"><i class="fa-solid fa-plane-arrival"></i> Destination</label>
+              <div class="custom-select-wrapper">
+                <select id="destInput" required>
+                  <option value="LHR" data-city="London" data-country="United Kingdom" selected>London (LHR) - Heathrow Airport</option>
+                  <option value="DXB" data-city="Dubai" data-country="UAE">Dubai (DXB) - Dubai Int'l</option>
+                  <option value="JFK" data-city="New York" data-country="United States">New York (JFK) - John F. Kennedy</option>
+                  <option value="SIN" data-city="Singapore" data-country="Singapore">Singapore (SIN) - Changi Airport</option>
+                  <option value="HND" data-city="Tokyo" data-country="Japan">Tokyo (HND) - Haneda Airport</option>
+                  <option value="CDG" data-city="Paris" data-country="France">Paris (CDG) - Charles de Gaulle</option>
+                  <option value="DEL" data-city="New Delhi" data-country="India">New Delhi (DEL) - Indira Gandhi Int'l</option>
+                  <option value="BOM" data-city="Mumbai" data-country="India">Mumbai (BOM) - Chhatrapati Shivaji</option>
+                  <option value="BLR" data-city="Bengaluru" data-country="India">Bengaluru (BLR) - Kempegowda Int'l</option>
+                  <option value="SYD" data-city="Sydney" data-country="Australia">Sydney (SYD) - Kingsford Smith</option>
+                </select>
+              </div>
+            </div>
+
+            <!-- Departure Date -->
+            <div class="input-group">
+              <label for="departureDate"><i class="fa-regular fa-calendar"></i> Departure</label>
+              <input type="date" id="departureDate" required>
+            </div>
+
+            <!-- Return Date -->
+            <div class="input-group" id="returnDateGroup">
+              <label for="returnDate"><i class="fa-regular fa-calendar-check"></i> Return</label>
+              <input type="date" id="returnDate">
+            </div>
+
+            <!-- Passengers & Class -->
+            <div class="input-group travelers-group">
+              <label><i class="fa-solid fa-user-group"></i> Travelers & Class</label>
+              <div class="travelers-trigger" id="travelersTrigger">
+                <span id="travelersDisplay">1 Adult, Economy</span>
+                <i class="fa-solid fa-chevron-down"></i>
+              </div>
+
+              <!-- Travelers Dropdown Menu -->
+              <div class="travelers-dropdown" id="travelersDropdown">
+                <div class="passenger-counter-row">
+                  <div class="counter-label">
+                    <strong>Adults</strong>
+                    <span>Age 12+</span>
+                  </div>
+                  <div class="counter-controls">
+                    <button type="button" class="counter-btn" id="decAdults" aria-label="Decrease adults">-</button>
+                    <span id="adultsCount">1</span>
+                    <button type="button" class="counter-btn" id="incAdults" aria-label="Increase adults">+</button>
+                  </div>
+                </div>
+
+                <div class="passenger-counter-row">
+                  <div class="counter-label">
+                    <strong>Children</strong>
+                    <span>Age 2-11</span>
+                  </div>
+                  <div class="counter-controls">
+                    <button type="button" class="counter-btn" id="decChildren" aria-label="Decrease children">-</button>
+                    <span id="childrenCount">0</span>
+                    <button type="button" class="counter-btn" id="incChildren" aria-label="Increase children">+</button>
+                  </div>
+                </div>
+
+                <div class="cabin-class-select-group">
+                  <label>Cabin Class</label>
+                  <select id="cabinClassSelect">
+                    <option value="economy">Economy Class</option>
+                    <option value="premium">Premium Economy</option>
+                    <option value="business">Business Class Suite</option>
+                    <option value="first">First Class Presidential</option>
+                  </select>
+                </div>
+
+                <button type="button" class="btn btn-primary btn-sm btn-full" id="applyTravelersBtn">Done</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Bottom bar with extra filters & CTA -->
+          <div class="search-form-footer">
+            <div class="search-extra-options">
+              <label class="checkbox-container">
+                <input type="checkbox" id="directFlightsOnly">
+                <span class="checkmark"></span>
+                <span>Direct Flights Only</span>
+              </label>
+              <label class="checkbox-container">
+                <input type="checkbox" id="refundableOnly">
+                <span class="checkmark"></span>
+                <span>Free Cancellation Included</span>
+              </label>
+            </div>
+
+            <button type="submit" class="btn btn-primary btn-lg btn-glow" id="searchFlightsBtn">
+              <i class="fa-solid fa-magnifying-glass"></i>
+              <span>Find Flights</span>
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <!-- Flight Search Results Section -->
+  <section class="results-section" id="resultsSection" style="display: none;">
+    <div class="container">
+      <!-- Search Route Summary Header -->
+      <div class="results-header-card">
+        <div class="route-summary">
+          <div class="route-airports">
+            <span class="route-city" id="summaryOriginCity">New Delhi</span>
+            <span class="route-code" id="summaryOriginCode">DEL</span>
+            <i class="fa-solid fa-plane route-arrow"></i>
+            <span class="route-city" id="summaryDestCity">London</span>
+            <span class="route-code" id="summaryDestCode">LHR</span>
+          </div>
+          <div class="route-meta" id="summaryMetaDetails">
+            <span><i class="fa-regular fa-calendar"></i> <span id="summaryDepartDateText">Tomorrow</span></span>
+            <span>•</span>
+            <span><i class="fa-solid fa-user"></i> <span id="summaryPassengersText">1 Passenger</span></span>
+            <span>•</span>
+            <span><i class="fa-solid fa-couch"></i> <span id="summaryCabinText">Economy Class</span></span>
+          </div>
+        </div>
+
+        <button class="btn btn-secondary btn-sm" id="modifySearchBtn">
+          <i class="fa-solid fa-pen-to-square"></i> Modify Search
+        </button>
+      </div>
+
+      <!-- Main Results Layout (Filters + Cards) -->
+      <div class="results-layout">
+        <!-- Sidebar Filter Column -->
+        <aside class="filters-sidebar">
+          <div class="filters-card">
+            <div class="filters-header">
+              <h3><i class="fa-solid fa-sliders"></i> Filters</h3>
+              <button type="button" class="btn-text" id="resetFiltersBtn">Reset All</button>
+            </div>
+
+            <!-- Stops Filter -->
+            <div class="filter-group">
+              <label class="filter-title">Stops</label>
+              <div class="filter-options">
+                <label class="radio-container">
+                  <input type="radio" name="stopsFilter" value="all" checked>
+                  <span class="radio-mark"></span>
+                  <span>All Flights</span>
+                </label>
+                <label class="radio-container">
+                  <input type="radio" name="stopsFilter" value="direct">
+                  <span class="radio-mark"></span>
+                  <span>Non-stop Only</span>
+                </label>
+                <label class="radio-container">
+                  <input type="radio" name="stopsFilter" value="1stop">
+                  <span class="radio-mark"></span>
+                  <span>1 Stop max</span>
+                </label>
+              </div>
+            </div>
+
+            <!-- Price Range Filter -->
+            <div class="filter-group">
+              <div class="filter-title-row">
+                <label class="filter-title">Max Price</label>
+                <span class="filter-value-badge" id="maxPriceLabel">₹150,000</span>
+              </div>
+              <input type="range" id="priceRangeSlider" min="20000" max="250000" step="2000" value="250000" class="range-slider">
+            </div>
+
+            <!-- Preferred Airlines -->
+            <div class="filter-group">
+              <label class="filter-title">Airlines</label>
+              <div class="filter-checkbox-list" id="airlineFilterList">
+                <label class="checkbox-container">
+                  <input type="checkbox" value="Aura Elite Airways" checked class="airline-filter-checkbox">
+                  <span class="checkmark"></span>
+                  <span>Aura Elite Airways</span>
+                </label>
+                <label class="checkbox-container">
+                  <input type="checkbox" value="SkyStream Express" checked class="airline-filter-checkbox">
+                  <span class="checkmark"></span>
+                  <span>SkyStream Express</span>
+                </label>
+                <label class="checkbox-container">
+                  <input type="checkbox" value="Zenith Global" checked class="airline-filter-checkbox">
+                  <span class="checkmark"></span>
+                  <span>Zenith Global</span>
+                </label>
+                <label class="checkbox-container">
+                  <input type="checkbox" value="Oceanic Jetways" checked class="airline-filter-checkbox">
+                  <span class="checkmark"></span>
+                  <span>Oceanic Jetways</span>
+                </label>
+              </div>
+            </div>
+
+            <!-- Departure Time Window -->
+            <div class="filter-group">
+              <label class="filter-title">Departure Time</label>
+              <div class="time-slot-grid">
+                <button type="button" class="time-slot-btn active" data-slot="all">Any</button>
+                <button type="button" class="time-slot-btn" data-slot="morning"><i class="fa-solid fa-sun"></i> Morning<br><small>06:00 - 12:00</small></button>
+                <button type="button" class="time-slot-btn" data-slot="afternoon"><i class="fa-solid fa-cloud-sun"></i> Afternoon<br><small>12:00 - 18:00</small></button>
+                <button type="button" class="time-slot-btn" data-slot="evening"><i class="fa-solid fa-moon"></i> Evening<br><small>18:00 - 24:00</small></button>
+              </div>
+            </div>
+          </div>
+        </aside>
+
+        <!-- Flights Cards Column -->
+        <main class="flights-list-container">
+          <!-- Sorting and Count Bar -->
+          <div class="sorting-bar">
+            <span class="results-count" id="resultsCount">Showing 6 available flights</span>
+            <div class="sort-controls">
+              <label for="sortBySelect"><i class="fa-solid fa-arrow-down-short-wide"></i> Sort by:</label>
+              <select id="sortBySelect">
+                <option value="cheapest">Cheapest First</option>
+                <option value="fastest">Fastest Duration</option>
+                <option value="earliest">Earliest Departure</option>
+                <option value="recommended" selected>Aura Recommended</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Flight List Grid -->
+          <div class="flight-cards-stack" id="flightCardsContainer">
+            <!-- Dynamic flight cards injected via JavaScript -->
+          </div>
+        </main>
+      </div>
+    </div>
+  </section>
+
+  <!-- Popular / Trending Destinations Showcase -->
+  <section class="destinations-section" id="destinationsSection">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-tag">GLOBAL INSPIRATION</span>
+        <h2 class="section-title">Trending Luxury Destinations</h2>
+        <p class="section-subtitle">Exclusive seasonal fares to the world’s most iconic skylines and tranquil escapes.</p>
+      </div>
+
+      <div class="destinations-grid">
+        <!-- Destination 1: London -->
+        <div class="destination-card" data-origin="DEL" data-dest="LHR">
+          <div class="dest-img-container">
+            <div class="dest-badge">Popular</div>
+            <img src="https://images.unsplash.com/photo-1513635269975-59663e0ac1ad?auto=format&fit=crop&w=800&q=80" alt="London Big Ben and Westminster" loading="lazy">
+            <div class="dest-gradient"></div>
+          </div>
+          <div class="dest-info">
+            <div class="dest-header">
+              <div>
+                <h3 class="dest-city">London, UK</h3>
+                <span class="dest-code">LHR • Heathrow</span>
+              </div>
+              <div class="dest-price">
+                <small>from</small>
+                <strong class="currency-price" data-usd="640">₹53,200</strong>
+              </div>
+            </div>
+            <p class="dest-desc">Historic elegance meets cosmopolitan culture, Michelin gastronomy, and Royal parks.</p>
+            <button class="btn btn-outline btn-sm quick-book-btn" data-origin="DEL" data-dest="LHR">Book This Route <i class="fa-solid fa-arrow-right"></i></button>
+          </div>
+        </div>
+
+        <!-- Destination 2: Dubai -->
+        <div class="destination-card" data-origin="DEL" data-dest="DXB">
+          <div class="dest-img-container">
+            <div class="dest-badge highlight">Non-Stop 3h 30m</div>
+            <img src="https://images.unsplash.com/photo-1512453979798-5ea266f8880c?auto=format&fit=crop&w=800&q=80" alt="Dubai Downtown Burj Khalifa" loading="lazy">
+            <div class="dest-gradient"></div>
+          </div>
+          <div class="dest-info">
+            <div class="dest-header">
+              <div>
+                <h3 class="dest-city">Dubai, UAE</h3>
+                <span class="dest-code">DXB • Dubai Int'l</span>
+              </div>
+              <div class="dest-price">
+                <small>from</small>
+                <strong class="currency-price" data-usd="320">₹26,500</strong>
+              </div>
+            </div>
+            <p class="dest-desc">Futuristic marvels, desert private safaris, and legendary waterfront opulence.</p>
+            <button class="btn btn-outline btn-sm quick-book-btn" data-origin="DEL" data-dest="DXB">Book This Route <i class="fa-solid fa-arrow-right"></i></button>
+          </div>
+        </div>
+
+        <!-- Destination 3: Tokyo -->
+        <div class="destination-card" data-origin="DEL" data-dest="HND">
+          <div class="dest-img-container">
+            <div class="dest-badge">Exclusive</div>
+            <img src="https://images.unsplash.com/photo-1503899036084-c55cdd92da26?auto=format&fit=crop&w=800&q=80" alt="Tokyo skyline at night" loading="lazy">
+            <div class="dest-gradient"></div>
+          </div>
+          <div class="dest-info">
+            <div class="dest-header">
+              <div>
+                <h3 class="dest-city">Tokyo, Japan</h3>
+                <span class="dest-code">HND • Haneda</span>
+              </div>
+              <div class="dest-price">
+                <small>from</small>
+                <strong class="currency-price" data-usd="590">₹49,000</strong>
+              </div>
+            </div>
+            <p class="dest-desc">A mesmerizing blend of neon-lit metropolis, ancient shrines, and omakase perfection.</p>
+            <button class="btn btn-outline btn-sm quick-book-btn" data-origin="DEL" data-dest="HND">Book This Route <i class="fa-solid fa-arrow-right"></i></button>
+          </div>
+        </div>
+
+        <!-- Destination 4: New York -->
+        <div class="destination-card" data-origin="DEL" data-dest="JFK">
+          <div class="dest-img-container">
+            <div class="dest-badge">Direct Daily</div>
+            <img src="https://images.unsplash.com/photo-1496442226666-8d4d0e62e6e9?auto=format&fit=crop&w=800&q=80" alt="New York City skyline" loading="lazy">
+            <div class="dest-gradient"></div>
+          </div>
+          <div class="dest-info">
+            <div class="dest-header">
+              <div>
+                <h3 class="dest-city">New York, USA</h3>
+                <span class="dest-code">JFK • John F. Kennedy</span>
+              </div>
+              <div class="dest-price">
+                <small>from</small>
+                <strong class="currency-price" data-usd="820">₹68,400</strong>
+              </div>
+            </div>
+            <p class="dest-desc">The beating heart of global business, Broadway theatres, and iconic architecture.</p>
+            <button class="btn btn-outline btn-sm quick-book-btn" data-origin="DEL" data-dest="JFK">Book This Route <i class="fa-solid fa-arrow-right"></i></button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Live Flight Status Checker -->
+  <section class="flight-status-section" id="flightStatusSection">
+    <div class="container">
+      <div class="status-box">
+        <div class="status-header">
+          <div>
+            <span class="section-tag"><i class="fa-solid fa-satellite-dish"></i> LIVE RADAR CONCIERGE</span>
+            <h2 class="section-title">Live Flight Status Tracker</h2>
+            <p class="section-subtitle">Real-time gate updates, airborne telemetry, and arrival forecasts.</p>
+          </div>
+        </div>
+
+        <div class="status-search-form">
+          <div class="status-input-wrap">
+            <i class="fa-solid fa-ticket"></i>
+            <input type="text" id="statusFlightInput" placeholder="Enter Flight Number (e.g. AU-804, ZN-219, SK-402)" value="AU-804">
+          </div>
+          <button class="btn btn-primary" id="trackFlightBtn"><i class="fa-solid fa-radar"></i> Check Status</button>
+        </div>
+
+        <!-- Live Status Card Display -->
+        <div class="status-result-card" id="statusResultCard">
+          <div class="status-card-top">
+            <div class="status-flight-info">
+              <div class="flight-badge-pill">
+                <span class="status-dot pulsing"></span>
+                <span class="flight-state-text" id="flightStateText">ON TIME — IN FLIGHT</span>
+              </div>
+              <h3 id="statusFlightCode">Aura Elite AU-804</h3>
+              <p id="statusAircraftType">Boeing 787-9 Dreamliner • Tail VT-AUR</p>
+            </div>
+            <div class="status-speed-alt">
+              <div class="telemetry-item">
+                <small>Cruising Altitude</small>
+                <strong>38,000 FT</strong>
+              </div>
+              <div class="telemetry-item">
+                <small>Ground Speed</small>
+                <strong>540 KTS (998 KM/H)</strong>
+              </div>
+            </div>
+          </div>
+
+          <!-- Flight Progress Bar -->
+          <div class="flight-progress-container">
+            <div class="progress-labels">
+              <div>
+                <strong id="trackerOriginCode">DEL</strong>
+                <small id="trackerOriginCity">New Delhi (T3)</small>
+                <div class="tracker-time">Dep: 02:45 AM</div>
+              </div>
+              <div class="plane-progress-indicator">
+                <div class="progress-bar-line">
+                  <div class="progress-fill" style="width: 68%;"></div>
+                  <i class="fa-solid fa-plane flight-marker" style="left: 68%;"></i>
+                </div>
+                <span class="est-remaining">2h 15m remaining</span>
+              </div>
+              <div class="text-right">
+                <strong id="trackerDestCode">LHR</strong>
+                <small id="trackerDestCity">London Heathrow (T2)</small>
+                <div class="tracker-time">Est: 07:30 AM</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Aura Advantages Section -->
+  <section class="features-section" id="featuresSection">
+    <div class="container">
+      <div class="section-header text-center">
+        <span class="section-tag">EXCELLENCE IN THE AIR</span>
+        <h2 class="section-title">The AuraWings Standard</h2>
+        <p class="section-subtitle">Engineered for discerning travelers who value timeless luxury and flawless punctuality.</p>
+      </div>
+
+      <div class="features-grid">
+        <div class="feature-card">
+          <div class="feature-icon"><i class="fa-solid fa-clock-rotate-left"></i></div>
+          <h3>99.4% On-Time Reliability</h3>
+          <p>Consistently ranked the globe's most punctual aviation network with priority runway slots at international hubs.</p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon"><i class="fa-solid fa-wifi"></i></div>
+          <h3>Starlink High-Speed Wi-Fi</h3>
+          <p>Complimentary ultra-fast satellite internet across all cabins. Stream, game, or video conference at 40,000 feet.</p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon"><i class="fa-solid fa-champagne-glasses"></i></div>
+          <h3>Michelin Curated Menus</h3>
+          <p>Seasonal culinary creations by master chefs, paired with vintage wines and sommelier-selected champagnes.</p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon"><i class="fa-solid fa-shield-halved"></i></div>
+          <h3>Instant 100% Refunds</h3>
+          <p>Cancel your ticket with a single tap up to 2 hours prior to scheduled departure with zero cancellation penalties.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Interactive Booking & Checkout Flow Modal -->
+  <div class="modal-backdrop" id="bookingModal">
+    <div class="modal-dialog booking-modal-dialog">
+      <!-- Modal Header -->
+      <div class="modal-header">
+        <div class="wizard-steps-nav">
+          <div class="step-item active" data-step="1">
+            <span class="step-num">1</span>
+            <span class="step-title">Select Seat</span>
+          </div>
+          <div class="step-separator"></div>
+          <div class="step-item" data-step="2">
+            <span class="step-num">2</span>
+            <span class="step-title">Passenger Info</span>
+          </div>
+          <div class="step-separator"></div>
+          <div class="step-item" data-step="3">
+            <span class="step-num">3</span>
+            <span class="step-title">Add-ons</span>
+          </div>
+          <div class="step-separator"></div>
+          <div class="step-item" data-step="4">
+            <span class="step-num">4</span>
+            <span class="step-title">Payment</span>
+          </div>
+        </div>
+        <button class="modal-close-btn" id="closeBookingModalBtn" aria-label="Close Modal">&times;</button>
+      </div>
+
+      <!-- Modal Body -->
+      <div class="modal-body">
+        <!-- Selected Flight Quick Header Summary -->
+        <div class="modal-flight-snippet" id="modalFlightSnippet">
+          <!-- Injected dynamically -->
+        </div>
+
+        <!-- STEP 1: INTERACTIVE SEAT SELECTION -->
+        <div class="wizard-step-content active" id="wizardStep1">
+          <div class="seatmap-intro">
+            <div>
+              <h3>Choose Your Preferred Seat</h3>
+              <p>Select your seats on our wide-body luxury jetliner. Window, aisle, and extra-legroom seats are available.</p>
+            </div>
+            <!-- Seat Legend -->
+            <div class="seat-legend">
+              <span class="legend-item"><span class="seat-sample available"></span> Available</span>
+              <span class="legend-item"><span class="seat-sample selected"></span> Selected</span>
+              <span class="legend-item"><span class="seat-sample extra-legroom"></span> Extra Legroom</span>
+              <span class="legend-item"><span class="seat-sample occupied"></span> Occupied</span>
+            </div>
+          </div>
+
+          <!-- Plane Fuselage Graphic Container -->
+          <div class="plane-fuselage-wrapper">
+            <div class="cockpit-nose">
+              <i class="fa-solid fa-plane"></i> COCKPIT
+            </div>
+
+            <!-- Seat grid rendered dynamically via JS -->
+            <div class="cabin-seat-grid" id="cabinSeatGrid">
+              <!-- Dynamically populated -->
+            </div>
+
+            <div class="plane-tail">
+              <span>GALLEY & LAVATORIES</span>
+            </div>
+          </div>
+
+          <div class="step-action-bar">
+            <div class="selected-seat-indicator">
+              <span>Selected Seat:</span>
+              <strong id="selectedSeatBadge">None (Please click a seat)</strong>
+            </div>
+            <button class="btn btn-primary" id="goToStep2Btn" disabled>
+              Continue to Passenger Details <i class="fa-solid fa-arrow-right"></i>
+            </button>
+          </div>
+        </div>
+
+        <!-- STEP 2: PASSENGER INFORMATION -->
+        <div class="wizard-step-content" id="wizardStep2">
+          <div class="step-intro">
+            <h3>Passenger Identification & Preferences</h3>
+            <p>Please enter details accurately matching your government-issued passport or photo ID.</p>
+          </div>
+
+          <form id="passengerForm" class="passenger-form-grid">
+            <div class="form-row form-row-3">
+              <div class="form-field">
+                <label for="passTitle">Title *</label>
+                <select id="passTitle" required>
+                  <option value="Mr">Mr</option>
+                  <option value="Mrs">Mrs</option>
+                  <option value="Ms">Ms</option>
+                  <option value="Dr">Dr</option>
+                </select>
+              </div>
+              <div class="form-field">
+                <label for="passFirstName">First Name *</label>
+                <input type="text" id="passFirstName" placeholder="e.g. Alexander" required value="Alexander">
+              </div>
+              <div class="form-field">
+                <label for="passLastName">Last Name *</label>
+                <input type="text" id="passLastName" placeholder="e.g. Vance" required value="Vance">
+              </div>
+            </div>
+
+            <div class="form-row form-row-2">
+              <div class="form-field">
+                <label for="passEmail">Email Address (for e-Ticket delivery) *</label>
+                <input type="email" id="passEmail" placeholder="name@domain.com" required value="alexander.vance@example.com">
+              </div>
+              <div class="form-field">
+                <label for="passPhone">Mobile Phone (with country code) *</label>
+                <input type="tel" id="passPhone" placeholder="+91 98765 43210" required value="+91 98450 12345">
+              </div>
+            </div>
+
+            <div class="form-row form-row-2">
+              <div class="form-field">
+                <label for="passIdNumber">Passport / Government ID Number *</label>
+                <input type="text" id="passIdNumber" placeholder="e.g. Z8294719" required value="Z8942104">
+              </div>
+              <div class="form-field">
+                <label for="passMeal">Gourmet In-Flight Meal Preference</label>
+                <select id="passMeal">
+                  <option value="Chef Signature Tasting Menu">Chef Signature Tasting Menu</option>
+                  <option value="Vegetarian Asian Gourmet">Vegetarian Asian Gourmet</option>
+                  <option value="Vegan Plant-Based Delight">Vegan Plant-Based Delight</option>
+                  <option value="Halal Certified Special">Halal Certified Special</option>
+                  <option value="Gluten-Free & Diabetic Balanced">Gluten-Free & Diabetic Balanced</option>
+                  <option value="Kosher Meal">Kosher Meal</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-field">
+                <label for="frequentFlyer">Frequent Flyer / Aura Club Number (Optional)</label>
+                <input type="text" id="frequentFlyer" placeholder="AUR-XXXXXX (Optional)" value="AUR-882914">
+              </div>
+            </div>
+
+            <div class="step-action-bar">
+              <button type="button" class="btn btn-secondary" id="backToStep1Btn">
+                <i class="fa-solid fa-arrow-left"></i> Back to Seat Selection
+              </button>
+              <button type="submit" class="btn btn-primary" id="goToStep3Btn">
+                Continue to Add-ons <i class="fa-solid fa-arrow-right"></i>
+              </button>
+            </div>
+          </form>
+        </div>
+
+        <!-- STEP 3: ADD-ONS & LUXURY UPSELLS -->
+        <div class="wizard-step-content" id="wizardStep3">
+          <div class="step-intro">
+            <h3>Enhance Your Journey</h3>
+            <p>Customize your onboard experience with our curated travel privileges.</p>
+          </div>
+
+          <div class="addons-list">
+            <!-- Addon 1: Extra Baggage -->
+            <label class="addon-card">
+              <div class="addon-check">
+                <input type="checkbox" id="addonBaggage" data-price-usd="35" data-price-inr="2900">
+                <span class="checkmark"></span>
+              </div>
+              <div class="addon-icon"><i class="fa-solid fa-suitcase-rolling"></i></div>
+              <div class="addon-details">
+                <div class="addon-title-row">
+                  <h4>Extra Baggage Allowance (+23 KG)</h4>
+                  <span class="addon-price">+₹2,900</span>
+                </div>
+                <p>Additional 23kg checked bag with priority luggage handling on arrival carousel.</p>
+              </div>
+            </label>
+
+            <!-- Addon 2: VIP Lounge Access -->
+            <label class="addon-card">
+              <div class="addon-check">
+                <input type="checkbox" id="addonLounge" data-price-usd="45" data-price-inr="3750" checked>
+                <span class="checkmark"></span>
+              </div>
+              <div class="addon-icon"><i class="fa-solid fa-martini-glass-citrus"></i></div>
+              <div class="addon-details">
+                <div class="addon-title-row">
+                  <h4>Aura VIP Lounge Access & Fast-Track</h4>
+                  <span class="addon-price">+₹3,750</span>
+                </div>
+                <p>Complimentary buffet, private nap pods, champagne bar, and fast-track security lane.</p>
+              </div>
+            </label>
+
+            <!-- Addon 3: Comprehensive Travel Insurance -->
+            <label class="addon-card">
+              <div class="addon-check">
+                <input type="checkbox" id="addonInsurance" data-price-usd="25" data-price-inr="2100">
+                <span class="checkmark"></span>
+              </div>
+              <div class="addon-icon"><i class="fa-solid fa-shield-heart"></i></div>
+              <div class="addon-details">
+                <div class="addon-title-row">
+                  <h4>Comprehensive Travel Protection</h4>
+                  <span class="addon-price">+₹2,100</span>
+                </div>
+                <p>Coverage up to $100,000 for medical emergencies, flight delays, and trip cancellation.</p>
+              </div>
+            </label>
+
+            <!-- Addon 4: Carbon Neutral Flight -->
+            <label class="addon-card">
+              <div class="addon-check">
+                <input type="checkbox" id="addonCarbon" data-price-usd="5" data-price-inr="400">
+                <span class="checkmark"></span>
+              </div>
+              <div class="addon-icon"><i class="fa-solid fa-leaf"></i></div>
+              <div class="addon-details">
+                <div class="addon-title-row">
+                  <h4>Certified Carbon Offset</h4>
+                  <span class="addon-price">+₹400</span>
+                </div>
+                <p>100% neutralize the carbon footprint of your flight via verified reforestation projects.</p>
+              </div>
+            </label>
+          </div>
+
+          <div class="step-action-bar">
+            <button type="button" class="btn btn-secondary" id="backToStep2Btn">
+              <i class="fa-solid fa-arrow-left"></i> Back to Passenger Details
+            </button>
+            <button type="button" class="btn btn-primary" id="goToStep4Btn">
+              Proceed to Secure Payment <i class="fa-solid fa-arrow-right"></i>
+            </button>
+          </div>
+        </div>
+
+        <!-- STEP 4: PAYMENT SIMULATION & SUMMARY -->
+        <div class="wizard-step-content" id="wizardStep4">
+          <div class="checkout-grid">
+            <!-- Left: Payment Method -->
+            <div class="payment-method-panel">
+              <h3>Select Payment Method</h3>
+              
+              <div class="payment-tabs">
+                <button type="button" class="pay-tab active" data-method="card"><i class="fa-regular fa-credit-card"></i> Card</button>
+                <button type="button" class="pay-tab" data-method="upi"><i class="fa-solid fa-qrcode"></i> UPI / QR</button>
+                <button type="button" class="pay-tab" data-method="netbanking"><i class="fa-solid fa-building-columns"></i> Net Banking</button>
+              </div>
+
+              <!-- Credit Card Form -->
+              <form id="paymentForm" class="payment-form">
+                <div id="cardFields">
+                  <div class="form-field">
+                    <label for="cardNumber">Card Number</label>
+                    <div class="input-with-icon">
+                      <i class="fa-regular fa-credit-card"></i>
+                      <input type="text" id="cardNumber" placeholder="4532 •••• •••• 8892" maxlength="19" value="4532 8920 4421 8892" required>
+                    </div>
+                  </div>
+
+                  <div class="form-row form-row-2">
+                    <div class="form-field">
+                      <label for="cardExpiry">Expiration Date</label>
+                      <input type="text" id="cardExpiry" placeholder="MM/YY" maxlength="5" value="08/29" required>
+                    </div>
+                    <div class="form-field">
+                      <label for="cardCvv">CVV / CVC</label>
+                      <input type="password" id="cardCvv" placeholder="•••" maxlength="4" value="882" required>
+                    </div>
+                  </div>
+
+                  <div class="form-field">
+                    <label for="cardHolder">Cardholder Name</label>
+                    <input type="text" id="cardHolder" placeholder="Name on card" value="ALEXANDER VANCE" required>
+                  </div>
+                </div>
+
+                <!-- UPI Fields (hidden by default) -->
+                <div id="upiFields" style="display: none;">
+                  <div class="form-field">
+                    <label for="upiId">Enter Virtual Payment Address (VPA / UPI ID)</label>
+                    <input type="text" id="upiId" placeholder="username@okhdfcbank" value="alexvance@okaxis">
+                  </div>
+                  <div class="upi-qr-preview">
+                    <div class="fake-qr-code">
+                      <i class="fa-solid fa-qrcode"></i>
+                      <span>Scan with Google Pay, PhonePe or Paytm</span>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Net Banking Fields (hidden by default) -->
+                <div id="netbankingFields" style="display: none;">
+                  <div class="form-field">
+                    <label for="bankSelect">Select Bank</label>
+                    <select id="bankSelect">
+                      <option value="HDFC">HDFC Bank</option>
+                      <option value="ICICI">ICICI Bank</option>
+                      <option value="SBI">State Bank of India</option>
+                      <option value="AXIS">Axis Bank</option>
+                      <option value="AMEX">American Express</option>
+                    </select>
+                  </div>
+                </div>
+
+                <div class="security-note">
+                  <i class="fa-solid fa-lock"></i> 256-Bit SSL Encrypted & Bank-Grade Verified Checkout
+                </div>
+
+                <div class="step-action-bar">
+                  <button type="button" class="btn btn-secondary" id="backToStep3Btn">
+                    <i class="fa-solid fa-arrow-left"></i> Back to Add-ons
+                  </button>
+                  <button type="submit" class="btn btn-primary btn-lg btn-glow" id="confirmPaymentBtn">
+                    <i class="fa-solid fa-check"></i> Pay & Issue Boarding Pass
+                  </button>
+                </div>
+              </form>
+            </div>
+
+            <!-- Right: Order Cost Breakdown Summary -->
+            <div class="order-summary-panel">
+              <h3>Fare Summary</h3>
+              <div class="summary-breakdown">
+                <div class="summary-line">
+                  <span>Base Airfare (<span id="summaryPassengerCount">1</span> Traveler)</span>
+                  <strong id="summaryBasePrice">₹48,200</strong>
+                </div>
+                <div class="summary-line">
+                  <span>Airport Taxes & Regulatory Surcharges</span>
+                  <strong id="summaryTaxesPrice">₹4,800</strong>
+                </div>
+                <div class="summary-line">
+                  <span>Selected Seat (<span id="summarySeatName">14A</span>)</span>
+                  <strong id="summarySeatPrice">₹0 (Included)</strong>
+                </div>
+                <div class="summary-line">
+                  <span>Curated Add-ons & Services</span>
+                  <strong id="summaryAddonsPrice">+₹3,750</strong>
+                </div>
+                <hr class="summary-divider">
+                <div class="summary-total-line">
+                  <span>Total Due</span>
+                  <span class="total-amount" id="summaryGrandTotal">₹56,750</span>
+                </div>
+              </div>
+
+              <div class="airline-guarantee-badge">
+                <i class="fa-solid fa-plane-circle-check"></i>
+                <div>
+                  <strong>Aura Platinum Assurance</strong>
+                  <p>Guaranteed gate seat reservation with instant SMS & WhatsApp itinerary delivery.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Boarding Pass & Confirmation Modal -->
+  <div class="modal-backdrop" id="boardingPassModal">
+    <div class="modal-dialog boarding-modal-dialog">
+      <div class="boarding-modal-header">
+        <div class="success-banner">
+          <div class="success-icon"><i class="fa-solid fa-circle-check"></i></div>
+          <div>
+            <h3>Booking Confirmed & e-Ticket Issued!</h3>
+            <p>Your PNR Reference code is: <strong id="modalPnrDisplay">AUR-89421</strong>. Have a wonderful flight!</p>
+          </div>
+        </div>
+        <button class="modal-close-btn" id="closePassModalBtn" aria-label="Close Modal">&times;</button>
+      </div>
+
+      <!-- High-fidelity Boarding Pass Graphic -->
+      <div class="ticket-card" id="printableTicket">
+        <!-- Ticket Left Main Body -->
+        <div class="ticket-main">
+          <div class="ticket-top-bar">
+            <div class="ticket-brand">
+              <i class="fa-solid fa-plane-up"></i>
+              <span>AURA<span class="accent">WINGS</span></span>
+            </div>
+            <div class="ticket-pass-type" id="passCabinBadge">FIRST CLASS</div>
+          </div>
+
+          <div class="ticket-cities-row">
+            <div class="ticket-airport">
+              <span class="ticket-city" id="passOriginCity">NEW DELHI</span>
+              <h2 class="ticket-code" id="passOriginCode">DEL</h2>
+              <span class="ticket-time" id="passDepartTime">02:45 AM</span>
+            </div>
+
+            <div class="ticket-flight-path">
+              <div class="ticket-duration" id="passDuration">8h 45m</div>
+              <div class="ticket-route-line">
+                <span class="route-point"></span>
+                <i class="fa-solid fa-plane"></i>
+                <span class="route-point"></span>
+              </div>
+              <span class="ticket-nonstop" id="passStopsText">NON-STOP</span>
+            </div>
+
+            <div class="ticket-airport text-right">
+              <span class="ticket-city" id="passDestCity">LONDON</span>
+              <h2 class="ticket-code" id="passDestCode">LHR</h2>
+              <span class="ticket-time" id="passArriveTime">07:30 AM</span>
+            </div>
+          </div>
+
+          <div class="ticket-data-grid">
+            <div class="ticket-col">
+              <small>PASSENGER</small>
+              <strong id="passPassengerName">MR. ALEXANDER VANCE</strong>
+            </div>
+            <div class="ticket-col">
+              <small>FLIGHT</small>
+              <strong id="passFlightNumber">AU-804</strong>
+            </div>
+            <div class="ticket-col">
+              <small>GATE</small>
+              <strong id="passGateNumber">14B</strong>
+            </div>
+            <div class="ticket-col">
+              <small>BOARDING</small>
+              <strong id="passBoardingTime">01:55 AM</strong>
+            </div>
+            <div class="ticket-col">
+              <small>SEAT</small>
+              <strong class="highlight-seat" id="passSeatNumber">12A</strong>
+            </div>
+          </div>
+        </div>
+
+        <!-- Perforated Tear Divider -->
+        <div class="ticket-divider">
+          <div class="notch top-notch"></div>
+          <div class="dashed-line"></div>
+          <div class="notch bottom-notch"></div>
+        </div>
+
+        <!-- Ticket Right Stub -->
+        <div class="ticket-stub">
+          <div class="stub-brand">AURA BOARDING PASS</div>
+          <div class="stub-details">
+            <div>
+              <small>NAME</small>
+              <span id="stubPassenger">A. VANCE</span>
+            </div>
+            <div>
+              <small>FLIGHT</small>
+              <span id="stubFlight">AU-804</span>
+            </div>
+            <div>
+              <small>SEAT</small>
+              <span id="stubSeat">12A</span>
+            </div>
+            <div>
+              <small>DATE</small>
+              <span id="stubDate">TOMORROW</span>
+            </div>
+          </div>
+
+          <!-- Dynamic QR Code Canvas -->
+          <div class="stub-qr-wrapper">
+            <canvas id="ticketQrCanvas" width="90" height="90"></canvas>
+            <small class="barcode-pnr" id="stubPnr">AUR-89421</small>
+          </div>
+        </div>
+      </div>
+
+      <!-- Action Buttons -->
+      <div class="boarding-actions">
+        <button class="btn btn-primary" id="printTicketBtn">
+          <i class="fa-solid fa-print"></i> Print Boarding Pass
+        </button>
+        <button class="btn btn-outline" id="downloadReceiptBtn">
+          <i class="fa-solid fa-file-arrow-down"></i> Download Itinerary
+        </button>
+        <button class="btn btn-secondary" id="finishBookingBtn">
+          <i class="fa-solid fa-check"></i> Done & View My Trips
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- "My Trips" Saved Bookings Drawer / Modal -->
+  <div class="modal-backdrop" id="myTripsModal">
+    <div class="modal-dialog trips-modal-dialog">
+      <div class="modal-header">
+        <div class="trips-modal-title">
+          <i class="fa-solid fa-ticket"></i>
+          <div>
+            <h3>My Trips & Boarding Passes</h3>
+            <p>Manage your booked flights, view digital tickets, or request changes.</p>
+          </div>
+        </div>
+        <button class="modal-close-btn" id="closeTripsModalBtn" aria-label="Close Trips Modal">&times;</button>
+      </div>
+
+      <div class="modal-body">
+        <div id="tripsListContainer" class="trips-list">
+          <!-- Dynamically populated or empty state -->
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Notification System -->
+  <div class="toast-container" id="toastContainer"></div>
+
+  <!-- Footer -->
+  <footer class="main-footer">
+    <div class="container">
+      <div class="footer-top-row">
+        <div class="footer-brand-col">
+          <div class="brand-logo">
+            <div class="logo-icon"><i class="fa-solid fa-plane-up"></i></div>
+            <div class="logo-text">
+              <span class="logo-main">AURA<span class="logo-highlight">WINGS</span></span>
+              <span class="logo-sub">GLOBAL ELITE AVIATION</span>
+            </div>
+          </div>
+          <p class="footer-desc">Redefining modern aviation with peerless luxury, biometric boarding, and an unwavering commitment to sustainable zero-emission flight.</p>
+          <div class="social-links">
+            <a href="#" aria-label="Twitter"><i class="fa-brands fa-x-twitter"></i></a>
+            <a href="#" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+            <a href="#" aria-label="LinkedIn"><i class="fa-brands fa-linkedin-in"></i></a>
+            <a href="#" aria-label="YouTube"><i class="fa-brands fa-youtube"></i></a>
+          </div>
+        </div>
+
+        <div class="footer-links-col">
+          <h4>Explore</h4>
+          <ul>
+            <li><a href="#searchSection">Search Flights</a></li>
+            <li><a href="#destinationsSection">World Destinations</a></li>
+            <li><a href="#flightStatusSection">Live Flight Status</a></li>
+            <li><a href="#">Private Charter</a></li>
+            <li><a href="#">Route Network Map</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-links-col">
+          <h4>Cabin Experience</h4>
+          <ul>
+            <li><a href="#">First Class SkySuites</a></li>
+            <li><a href="#">Business Class Lie-Flat</a></li>
+            <li><a href="#">In-Flight Starlink Wi-Fi</a></li>
+            <li><a href="#">Michelin Dining Menu</a></li>
+            <li><a href="#">Global Lounges</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-links-col">
+          <h4>Customer Care</h4>
+          <ul>
+            <li><a href="#">Manage Booking</a></li>
+            <li><a href="#">Baggage Guidelines</a></li>
+            <li><a href="#">Travel Advisory</a></li>
+            <li><a href="#">24/7 Elite Concierge</a></li>
+            <li><a href="#">Refund Policy</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="footer-bottom-row">
+        <p>&copy; 2026 AuraWings Global Elite Aviation Inc. All rights reserved.</p>
+        <div class="footer-legal">
+          <a href="#">Privacy Policy</a>
+          <a href="#">Terms of Carriage</a>
+          <a href="#">Cookie Preferences</a>
+          <a href="#">Security</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Main JavaScript Application Logic -->
+  <script src="js/app.js"></script>
+</body>
+</html>
